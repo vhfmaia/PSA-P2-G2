@@ -12,7 +12,7 @@ while True:
     cv2.imshow('Input', frame)
 
     c = cv2.waitKey(1)
-    if c == 27:
+    if c == 101:
         break
 
 cap.release()
