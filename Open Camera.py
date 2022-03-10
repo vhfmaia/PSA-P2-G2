@@ -1,25 +1,19 @@
-# import the opencv library
 import cv2
 
-# define a video capture object
-video = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0)
 
-while (True):
+# Check if the webcam is opened correctly
+if not cap.isOpened():
+    raise IOError("Cannot open webcam")
 
-    # Capture the video frame
-    # by frame
-    ret, frame = video.read()
+while True:
+    ret, frame = cap.read()
+    frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
+    cv2.imshow('Input', frame)
 
-    # Display the resulting frame
-    cv2.imshow('frame', frame)
-
-    # the 'q' button is set as the
-    # quitting button you may use any
-    # desired button of your choice
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    c = cv2.waitKey(1)
+    if c == 27:
         break
 
-# After the loop release the cap object
-video.release()
-# Destroy all the windows
+cap.release()
 cv2.destroyAllWindows()
