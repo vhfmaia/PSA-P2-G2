@@ -1,1 +1,0 @@
-print("O Afonso é Um cabrão de merda")
