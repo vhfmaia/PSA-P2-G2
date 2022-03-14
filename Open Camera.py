@@ -8,8 +8,9 @@ if not cap.isOpened():
 
 while True:
     ret, frame = cap.read()
-    frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
-    cv2.imshow('Input', frame)
+    frame = cv2.resize(frame, None, fx=0.7, fy=0.7, interpolation=cv2.INTER_AREA)
+    frame_flip = cv2.flip(frame, 1)
+    cv2.imshow('Input', frame_flip)
 
     c = cv2.waitKey(1)
     if c == 101:
