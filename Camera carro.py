@@ -1,4 +1,5 @@
 camera = carla.sensor.Camera('MyCamera', PostProcessing='SceneFinal')
+camera.set(bloom_intensity=0.675)
 camera.set(FOV=90.0)
 camera.set_image_size(800, 600)
 camera.set_position(x=0.30, y=0, z=1.30)
