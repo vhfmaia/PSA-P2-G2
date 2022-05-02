@@ -18,5 +18,4 @@ camera.set(lens_k=-1.0)
 camera.set(lens_kcube=0.0)
 camera.set_lens_size(x=0.08, y=0.08)
 
-
 carla_settings.add_sensor(camera)
