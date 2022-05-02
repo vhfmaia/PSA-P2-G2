@@ -1,4 +1,5 @@
 camera = carla.sensor.Camera('MyCamera', PostProcessing='SceneFinal')
+#camera configuratuion
 camera.set(bloom_intensity=0.675)
 camera.set(FOV=90.0)
 camera.set_image_size(800, 600)
@@ -8,5 +9,6 @@ camera.set(iso=100)
 camera.set(gamma=2.2)
 camera.set(sensor_tick=0.5)
 camera.set(shutter_speed=60)
+#Camera lens distortion attributes
 
 carla_settings.add_sensor(camera)
