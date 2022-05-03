@@ -40,7 +40,7 @@ Camera=world.spaw_actor(rgb_camera_bp,
                  attachment_type=carla.AttachmentType.Rigid)
 
 def handle_image(image):
-    image.save_to_disk('output/%05d.png', % image.frame, carla.ColaorConvert.Raw)
+    image.save_to_disk('output/%05d.png' % image.frame, carla.ColaorConvert.Raw)
 
 camera.listen(lambda image: handle_image(image))
 
