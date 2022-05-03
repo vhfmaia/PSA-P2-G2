@@ -46,8 +46,11 @@ def handle_image(image):
     org_array=np.frombuffer(image.raw_data, dtype=np.disp('uint8'))
     array=np.reshape(org_array, (image.height, image.width, 4))
     array=array[:, :, :3]
+    array = array[:, :,::-1]
+    array = array.swapaxes(0,1)
     surface=pygame.surfarray.make_surface(array)
-    disp.blit(surface, (0,0))
+
+    disp.blit(surface, (200,0))
     pygame.display.flip()
 
 display= pygame.display.set_mode(
