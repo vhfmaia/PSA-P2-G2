@@ -4,14 +4,19 @@ import time
 import numpy as np
 import pygame
 import numpy
+import random
 
 client = carla.client('localhost',2000)
+client.set_timeout(2.0)
 world=client.load_wold("Town02")
 
-world.set_weather(carla.WeatherParameters.ClearNoon)
+#world.set_weather(carla.WeatherParameters.ClearNoon)
 
-bp_lib=world.get_blueprint_library()
-vehicle_bp=bp_lib.filter('vehicle.tesla.model3') [0]
+bp=world.get_blueprint_library()
+vehicle_bp=bp.filter('vehicle.tesla.model3') [0]
+print(bp)
+
+spawn_point=random.choice(world.get_map().get_spawn_points())
 
 transform=carla.Transform()
 
