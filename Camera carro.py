@@ -32,6 +32,14 @@ control=carla.VehicleControl()
 control.throttle=0.3
 vehicle.apply_control(control)
 
+rgb_camera_bp=world.get_blueprint_library().find('sensor.camera.rgb)')
+cam_transform=carla.Transform(carla.Location(x=0.8, z=1.7))
+Camera=world.spaw_actor(rgb_camera_bp,
+                 cam_transform,
+                 attach_to=vehicle,
+                 attachment_type=carla.AttachmentType.Rigid)
+camera.listen(lambda image: handle_image(image))
+
 time.sleep(15)
 
 vehicle.destroy()
