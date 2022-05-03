@@ -354,10 +354,10 @@ class KeyboardControl(object):
         parse key events
         """
         self._control.throttle = self.RightTrigger()
-        self._steer_cache = 0.7 * self.LeftJoystickX
+        self._steer_cache = 0.7 * self.LeftJoystickX()
         self._control.steer = round(self._steer_cache, 1)
         self._control.brake = self.LeftTrigger()
-        self._control.hand_brake = self.B
+        self._control.hand_brake = self.B()
 
     @staticmethod
     def _is_quit_shortcut(key):
