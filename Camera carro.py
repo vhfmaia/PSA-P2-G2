@@ -76,11 +76,11 @@ display= pygame.display.set_mode(
         (1200, 600)
         pygame.HWSURFACE | pygame.DOUBLEBUF)
 
-camera.listen(lambda image: handle_image(display, image))
+rgb_camera_bp.listen(lambda image: handle_image(display, image))
 
 time.sleep(15)
 
-camera.destroy()
+rgb_camera_bp.destroy()
 vehicle.destroy()
 
 camera = carla.sensor.Camera('MyCamera', PostProcessing='SceneFinal')
