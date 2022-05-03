@@ -3,6 +3,16 @@ import time
 import pygame
 import numpy
 
+client = carla.client('localhost',2000)
+world=client.load_wold("Town02")
+
+world.set_weather(carla.WeatherParameters.ClearNoon)
+
+bp_lib=world.get_blueprint_library()
+vehicle_bp=bp_lib.filter('vehicle.tesla.model3') [0]
+
+transform=carla.Transform()
+
 camera = carla.sensor.Camera('MyCamera', PostProcessing='SceneFinal')
 
 #camera configuration
