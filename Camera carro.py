@@ -42,7 +42,7 @@ Camera=world.spaw_actor(rgb_camera_bp,
                  attachment_type=carla.AttachmentType.Rigid)
 
 def handle_image(image):
-    #image.save_to_disk('output/%05d.png' % image.frame, carla.ColaorConvert.Raw)
+    #image.save_to_disk('output/%05d.png' % image.frame, carla.ColorConvert.Raw)
     org_array=np.frombuffer(image.raw_data, dtype=np.disp('uint8'))
     array=np.reshape(org_array, (image.height, image.width, 4))
     array=array[:, :, :3]
