@@ -13,6 +13,14 @@ vehicle_bp=bp_lib.filter('vehicle.tesla.model3') [0]
 
 transform=carla.Transform()
 
+transform.location.x=220
+transform.location.y=-1.6
+transform.location.z=1.85
+
+transform.location.yaw=180
+transform.location.pitch=0
+transform.location.roll=0
+
 camera = carla.sensor.Camera('MyCamera', PostProcessing='SceneFinal')
 
 #camera configuration
