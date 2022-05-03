@@ -55,7 +55,7 @@ display= pygame.display.set_mode(
         pygame.HWSURFACE | pygame.DOUBLEBUF
     )
 
-camera.listen(lambda image: handle_image(disp, image))
+camera.listen(lambda image: handle_image(display, image))
 
 time.sleep(15)
 
