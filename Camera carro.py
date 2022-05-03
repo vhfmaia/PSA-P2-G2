@@ -1,5 +1,7 @@
 import carla
 import time
+
+import numpy as np
 import pygame
 import numpy
 
@@ -40,12 +42,24 @@ Camera=world.spaw_actor(rgb_camera_bp,
                  attachment_type=carla.AttachmentType.Rigid)
 
 def handle_image(image):
-    image.save_to_disk('output/%05d.png' % image.frame, carla.ColaorConvert.Raw)
+    #image.save_to_disk('output/%05d.png' % image.frame, carla.ColaorConvert.Raw)
+    org_array=np.frombuffer(image.raw_data, dtype=np.disp('uint8'))
+    array=np.reshape(org_array, (image.height, image.width, 4))
+    array=array[:, :, :3]
+    surface=pygame.surfarray.make_surface(array)
+    disp.blit(surface, (0,0))
+    pygame.display.flip()
 
-camera.listen(lambda image: handle_image(image))
+display= pygame.display.set_mode(
+        (1200, 600)
+        pygame.HWSURFACE | pygame.DOUBLEBUF
+    )
+
+camera.listen(lambda image: handle_image(disp, image))
 
 time.sleep(15)
 
+camera.destroy()
 vehicle.destroy()
 
 camera = carla.sensor.Camera('MyCamera', PostProcessing='SceneFinal')
