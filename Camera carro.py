@@ -50,13 +50,12 @@ def handle_image(image):
     array = array.swapaxes(0,1)
     surface=pygame.surfarray.make_surface(array)
 
-    disp.blit(surface, (200,0))
+    display.blit(surface, (200,0))
     pygame.display.flip()
 
 display= pygame.display.set_mode(
         (1200, 600)
-        pygame.HWSURFACE | pygame.DOUBLEBUF
-    )
+        pygame.HWSURFACE | pygame.DOUBLEBUF)
 
 camera.listen(lambda image: handle_image(display, image))
 
