@@ -21,6 +21,21 @@ transform.location.yaw=180
 transform.location.pitch=0
 transform.location.roll=0
 
+vehicle=world.spaw_actor(vehicle_bp, transform)
+
+spectator=world.get_spectator()
+sp_transform=carla.Transform(transform.location + carla.Location(z=30, x=-25))
+    carla.Rotation(yaw=90, pitch=-90)
+spectator.set_tranform(sp_transform)
+
+control=carla.VehicleControl()
+control.throttle=0.3
+vehicle.apply_control(control)
+
+time.sleep(15)
+
+vehicle.destroy()
+
 camera = carla.sensor.Camera('MyCamera', PostProcessing='SceneFinal')
 
 #camera configuration
