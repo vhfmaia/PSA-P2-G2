@@ -1,3 +1,8 @@
+import carla
+import time
+import pygame
+import numpy
+
 camera = carla.sensor.Camera('MyCamera', PostProcessing='SceneFinal')
 
 #camera configuration
