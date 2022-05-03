@@ -14,10 +14,11 @@ world=client.load_wold("Town02")
 
 bp=world.get_blueprint_library()
 vehicle_bp=bp.filter('vehicle.tesla.model3') [0]
-print(bp)
+print(vehicle_bp)
 
-spawn_point=random.choice(world.get_map().get_spawn_points())
+spawn_point = random.choice(world.get_map().get_spawn_points())
 
+vehicle = world.spawn_actor(vehicle_bp, )
 transform=carla.Transform()
 
 transform.location.x=220
