@@ -1,9 +1,7 @@
 import carla
 import time
-
 import numpy as np
 import pygame
-import numpy
 import random
 
 client = carla.client('localhost',2000)
@@ -18,29 +16,44 @@ print(vehicle_bp)
 
 spawn_point = random.choice(world.get_map().get_spawn_points())
 
-vehicle = world.spawn_actor(vehicle_bp, )
-transform=carla.Transform()
+vehicle = world.spawn_actor(vehicle_bp, spawn_point)
+vehicle.apply_control(carla.VehicleControl(throttle=1.0, steer=0.0))
+#actor_list.append(vehicle)
 
-transform.location.x=220
-transform.location.y=-1.6
-transform.location.z=1.85
 
-transform.location.yaw=180
-transform.location.pitch=0
-transform.location.roll=0
 
-vehicle=world.spaw_actor(vehicle_bp, transform)
+#transform=carla.Transform()
+
+#transform.location.x=220
+#transform.location.y=-1.6
+#transform.location.z=1.85
+
+#transform.location.yaw=180
+#transform.location.pitch=0
+#transform.location.roll=0
+
+#vehicle=world.spaw_actor(vehicle_bp, transform)
 
 spectator=world.get_spectator()
 sp_transform=carla.Transform(transform.location + carla.Location(z=30, x=-25))
     carla.Rotation(yaw=90, pitch=-90)
 spectator.set_tranform(sp_transform)
 
-control=carla.VehicleControl()
-control.throttle=0.3
-vehicle.apply_control(control)
+#control=carla.VehicleControl()
+#control.throttle=0.3
+#vehicle.apply_control(control)
 
 rgb_camera_bp=world.get_blueprint_library().find('sensor.camera.rgb)')
+rgb_camera_bp.set_attribute("image_size_X", f"{IM_WIDTH}")
+rgb_camera_bp.set_attribute("image_size_Y", f"{IM_HEIGHT}")
+
+
+
+
+
+
+
+
 cam_transform=carla.Transform(carla.Location(x=0.8, z=1.7))
 Camera=world.spaw_actor(rgb_camera_bp,
                  cam_transform,
