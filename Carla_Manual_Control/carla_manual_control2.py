@@ -36,6 +36,7 @@ import numpy
 from transforms3d.euler import quat2euler
 try:
     import pygame
+    import pygame.joystick
     from pygame.locals import KMOD_CTRL
     from pygame.locals import KMOD_SHIFT
     from pygame.locals import K_COMMA
@@ -57,6 +58,7 @@ try:
     from pygame.locals import K_s
     from pygame.locals import K_w
     from pygame.locals import K_b
+    
 except ImportError:
     raise RuntimeError('cannot import pygame, make sure pygame package is installed')
 
@@ -162,9 +164,11 @@ class KeyboardControl(object):
     """
     Handle input events
     """
+    clock = pygame.time.Clock()
     pygame.joystick.init()
 
     def __init__(self, role_name, hud, node):
+        self.joystick = joystick
         self.role_name = role_name
         self.hud = hud
         self.node = node
@@ -286,6 +290,7 @@ class KeyboardControl(object):
         self._control.brake = self.joystick.get_axis(2)
         self._control.hand_brake = bool(keys[K_SPACE])
 
+    clock.tick(2)
     @staticmethod
     def _is_quit_shortcut(key):
         return (key == K_ESCAPE) or (key == K_q and pygame.key.get_mods() & KMOD_CTRL)
