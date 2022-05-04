@@ -184,6 +184,13 @@ class XboxController(object):
         self._monitor_thread.daemon = True
         self._monitor_thread.start()
 
+    def read(self): # return the buttons/triggers that you care about in this methode
+        x = round(self.LeftJoystickX, 2)
+        lt = round(self.LeftTrigger/4, 2)
+        rt = round(self.RightTrigger/4, 2)
+        lb = round(self.LeftBumper, 2)
+        rb = round(self.RightBumper, 2)
+        return [x, lt, rt, lb, rb]
 
     def _monitor_controller(self):
         while True:
@@ -323,7 +330,7 @@ class KeyboardControl(object):
                     self.hud.notification(
                         '%s Transmission' %
                         ('Manual' if self._control.manual_gear_shift else 'Automatic'))
-                elif self._control.manual_gear_shift and event.key == K_UpDPad:
+                elif self._control.manual_gear_shift and event.key == K_LeftBumper:
                     self._control.gear = max(-1, self._control.gear - 1)
                 elif self._control.manual_gear_shift and event.key == K_DownDPad:
                     self._control.gear = self._control.gear + 1

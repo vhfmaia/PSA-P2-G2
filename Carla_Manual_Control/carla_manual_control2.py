@@ -162,6 +162,7 @@ class KeyboardControl(object):
     """
     Handle input events
     """
+    pygame.joystick.init()
 
     def __init__(self, role_name, hud, node):
         self.role_name = role_name
@@ -242,9 +243,9 @@ class KeyboardControl(object):
                     self.hud.notification(
                         '%s Transmission' %
                         ('Manual' if self._control.manual_gear_shift else 'Automatic'))
-                elif self._control.manual_gear_shift and event.key == K_COMMA:
+                elif self._control.manual_gear_shift and event.key == self.joystick.get_button(4):
                     self._control.gear = max(-1, self._control.gear - 1)
-                elif self._control.manual_gear_shift and event.key == K_PERIOD:
+                elif self._control.manual_gear_shift and event.key == self.joystick.get_button(5):
                     self._control.gear = self._control.gear + 1
                 elif event.key == K_p:
                     self._autopilot_enabled = not self._autopilot_enabled
@@ -272,7 +273,7 @@ class KeyboardControl(object):
         """
         parse key events
         """
-        self._control.throttle = 1.0 if keys[K_UP] or keys[K_w] else 0.0
+        self._control.throttle = self.joystick.get_axis(5)
         steer_increment = 5e-4 * milliseconds
         if keys[K_LEFT] or keys[K_a]:
             self._steer_cache -= steer_increment
@@ -280,9 +281,9 @@ class KeyboardControl(object):
             self._steer_cache += steer_increment
         else:
             self._steer_cache = 0.0
-        self._steer_cache = min(0.7, max(-0.7, self._steer_cache))
+        self._steer_cache = self.joystick.get_axis(0)
         self._control.steer = round(self._steer_cache, 1)
-        self._control.brake = 1.0 if keys[K_DOWN] or keys[K_s] else 0.0
+        self._control.brake = self.joystick.get_axis(2)
         self._control.hand_brake = bool(keys[K_SPACE])
 
     @staticmethod
@@ -618,6 +619,7 @@ def main(args=None):
     resolution = {"width": 800, "height": 600}
 
     pygame.init()
+    pygame.joystick.init()
     pygame.font.init()
     pygame.display.set_caption("CARLA ROS manual control")
 
