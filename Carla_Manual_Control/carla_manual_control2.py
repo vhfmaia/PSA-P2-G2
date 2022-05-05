@@ -167,7 +167,7 @@ class KeyboardControl(object):
     clock = pygame.time.Clock()
     pygame.joystick.init()
 
-    def __init__(self, role_name, hud, node):
+    def __init__(self, joystick, role_name, hud, node):
         self.joystick = joystick
         self.role_name = role_name
         self.hud = hud
