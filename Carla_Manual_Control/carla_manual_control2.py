@@ -278,13 +278,6 @@ class KeyboardControl(object):
         parse key events
         """
         self._control.throttle = self.joystick.get_axis(5)
-        steer_increment = 5e-4 * milliseconds
-        if keys[K_LEFT] or keys[K_a]:
-            self._steer_cache -= steer_increment
-        elif keys[K_RIGHT] or keys[K_d]:
-            self._steer_cache += steer_increment
-        else:
-            self._steer_cache = 0.0
         self._steer_cache = self.joystick.get_axis(0)
         self._control.steer = round(self._steer_cache, 1)
         self._control.brake = self.joystick.get_axis(2)
