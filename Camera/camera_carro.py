@@ -20,7 +20,7 @@ for i in range(joystick_count):
     joystick.init()
 
 done = False
-while not done
+while not done:
     axes = joystick.get_numaxes()
     rt = joystick.get_axis(5)
     done = False
