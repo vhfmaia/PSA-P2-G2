@@ -1,16 +1,11 @@
 
-import glob
-import os
 import sys
-import argparse
 import time
 from datetime import datetime
-import random
 from matplotlib import cm
 import open3d as o3d
 import carla
 import numpy as np
-
 
 
 VIRIDIS = np.array(cm.get_cmap('plasma').colors)
@@ -108,16 +103,13 @@ def main():
 
         lidar_bp = generate_lidar_bp(world, blueprint_library, delta)
 
-        user_offset = carla.Location(arg.x, arg.y, arg.z)
-        lidar_transform = carla.Transform(carla.Location(x=-0.5, z=1.8) + user_offset)
+        lidar_transform = carla.Transform(carla.Location(x=-0.5, z=1.8))
 
         lidar = world.spawn_actor(lidar_bp, lidar_transform, attach_to=vehicle)
 
         point_list = o3d.geometry.PointCloud()
-        if arg.semantic:
-            lidar.listen(lambda data: semantic_lidar_callback(data, point_list))
-        else:
-            lidar.listen(lambda data: lidar_callback(data, point_list))
+
+        lidar.listen(lambda data: lidar_callback(data, point_list))
 
         vis = o3d.visualization.Visualizer()
         vis.create_window(
@@ -129,9 +121,6 @@ def main():
         vis.get_render_option().background_color = [0.05, 0.05, 0.05]
         vis.get_render_option().point_size = 1
         vis.get_render_option().show_coordinate_frame = True
-
-        if arg.show_axis:
-            add_open3d_axis(vis)
 
         frame = 0
         dt0 = datetime.now()
@@ -152,13 +141,15 @@ def main():
             dt0 = datetime.now()
             frame += 1
 
-   finally:
-        world.apply_settings(original_settings)
+    finally:
+        world.apply_settings(settings)
         traffic_manager.set_synchronous_mode(False)
 
         vehicle.destroy()
         lidar.destroy()
         vis.destroy_window()
+
+
 if __name__ == "__main__":
     try:
         main()
