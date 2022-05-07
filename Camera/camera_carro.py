@@ -12,14 +12,13 @@ pygame.joystick.init()
 # Get count of joysticks.
 joystick_count = pygame.joystick.get_count()
 
-done = False
 
 # For each joystick:
 for i in range(joystick_count):
     joystick = pygame.joystick.Joystick(i)
     joystick.init()
 
-while not done
+while not True
     axes = joystick.get_numaxes()
     rt = joystick.get_axis(5)
 
