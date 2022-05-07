@@ -18,7 +18,7 @@ for i in range(joystick_count):
     joystick = pygame.joystick.Joystick(i)
     joystick.init()
 
-axes = joystick.get_numaxes()
+axis = joystick.get_numaxis()
 rt = joystick.get_axis(5)
 
 
