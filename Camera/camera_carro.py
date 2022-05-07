@@ -33,9 +33,11 @@ transform.rotation.pitch = 0
 transform.rotation.roll = 0
 
 
-# Get spectator
+# Spawn vehicle
 vehicle = world.spawn_actor(vehicle_bp, transform)
 
+
+# Spawen spectator
 spectator = world.get_spectator()
 sp_transform = carla.Transform(transform.location + carla.Location(z=30, x=-25),
     carla.Rotation(yaw=90, pitch=-90))
@@ -57,13 +59,14 @@ camera = world.spawn_actor(rgb_camera_bp,
     attachment_type=carla.AttachmentType.Rigid)
 
 
-# Save images + open window
+# Image
 def handle_image(disp, image):
 
-    # Save images
-    image.save_to_disk('output/%05d.png' % image.frame,
-      carla.ColorConverter.Raw)
+    # Save image
+    image.save_to_disk('output/%05d.png' % image.frame, carla.ColorConverter.Raw)
 
+
+    # Handle image
     org_array = np.frombuffer(image.raw_data, dtype=np.dtype('uint8'))
     array = np.reshape(org_array, (image.height, image.width, 4))
     array = array[:, :, :3]
@@ -71,6 +74,8 @@ def handle_image(disp, image):
     array = array.swapaxes(0,1)
     surface = pygame.surfarray.make_surface(array)
 
+
+    # Update window
     disp.blit(surface, (200,0))
     pygame.display.flip()
 
@@ -82,12 +87,11 @@ display = pygame.display.set_mode(
     )
 
 
-# Update loop
+# Update
 camera.listen(lambda image: handle_image(display, image))
 
 
 # Stop after 15 seconds
 time.sleep(15)
-
 camera.destroy()
 vehicle.destroy()
