@@ -111,6 +111,6 @@ camera.listen(lambda image: handle_image(display, image))
 
 
 # Stop after 15 seconds
-time.sleep(20)
+time.sleep(25)
 camera.destroy()
 vehicle.destroy()
