@@ -110,7 +110,7 @@ display = pygame.display.set_mode(
 camera.listen(lambda image: handle_image(display, image))
 
 
-# Stop after 15 seconds
+# Stop
 time.sleep(25)
 camera.destroy()
 vehicle.destroy()
