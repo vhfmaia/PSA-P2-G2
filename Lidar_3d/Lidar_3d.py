@@ -62,7 +62,9 @@ def generate_lidar_bp(world, blueprint_library, delta):
     lidar_bp.set_attribute('points_per_second', str(500000))
     return lidar_bp
 
+
 def main():
+
     """Main function of the script"""
     # Connect to carla
     client = carla.Client('localhost', 2000)
