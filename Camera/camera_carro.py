@@ -13,15 +13,17 @@ pygame.joystick.init()
 joystick_count = pygame.joystick.get_count()
 
 
+
 # For each joystick:
 for i in range(joystick_count):
     joystick = pygame.joystick.Joystick(i)
     joystick.init()
 
-while not True
+done = False
+while not done
     axes = joystick.get_numaxes()
     rt = joystick.get_axis(5)
-
+    done = False
 
 # Connect to carla
 client = carla.Client('localhost', 2000)
