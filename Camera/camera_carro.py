@@ -46,9 +46,9 @@ vehicle_bp = bp_lib.filter('vehicle.tesla.model3')[0]
 # Start position
 transform = carla.Transform()
 
-transform.location.x = 130
-transform.location.y = 240
-transform.location.z = 2
+transform.location.x = 127.0
+transform.location.y = 237.4
+transform.location.z = 1.5
 
 transform.rotation.yaw = 180
 transform.rotation.pitch = 0
@@ -111,6 +111,6 @@ camera.listen(lambda image: handle_image(display, image))
 
 
 # Stop after 15 seconds
-time.sleep(120)
+time.sleep(20)
 camera.destroy()
 vehicle.destroy()
