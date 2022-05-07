@@ -33,11 +33,11 @@ transform.rotation.pitch = 0
 transform.rotation.roll = 0
 
 
-# Spawn vehicle
+# Spawn vehicle at start position
 vehicle = world.spawn_actor(vehicle_bp, transform)
 
 
-# Spawen spectator
+# Spawn spectator
 spectator = world.get_spectator()
 sp_transform = carla.Transform(transform.location + carla.Location(z=30, x=-25),
     carla.Rotation(yaw=90, pitch=-90))
