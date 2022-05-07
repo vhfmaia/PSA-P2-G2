@@ -65,7 +65,7 @@ spectator.set_transform(sp_transform)
 
 # Move vehicle
 control = carla.VehicleControl()
-control.throttle = rt
+control.throttle = 0.2
 vehicle.apply_control(control)
 
 
