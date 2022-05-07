@@ -5,9 +5,11 @@ import time
 import pygame
 import numpy as np
 
+
 # Initiate Pygame and Joystick
 pygame.init()
 pygame.joystick.init()
+clock = pygame.time.Clock()
 
 # Get count of joysticks.
 joystick_count = pygame.joystick.get_count()
@@ -24,6 +26,7 @@ while not done:
     axes = joystick.get_numaxes()
     rt = joystick.get_axis(5)
     print (rt)
+    clock.tick(2)
     done = False
 
 # Connect to carla
