@@ -5,37 +5,33 @@ import time
 import pygame
 import numpy as np
 
+
 # Initiate Pygame and Joystick
 pygame.init()
 pygame.joystick.init()
+clock = pygame.time.Clock()
+
+# Get count of joysticks.
+joystick_count = pygame.joystick.get_count()
 
 
-# Joystick Loop
-while not done:
-    #
-    # EVENT PROCESSING STEP
-    #
-    # Possible joystick actions: JOYAXISMOTION, JOYBALLMOTION, JOYBUTTONDOWN,
-    # JOYBUTTONUP, JOYHATMOTION
-    for event in pygame.event.get(): # User did something.
-            done = False # We're doing this forever :)
 
-    # Get count of joysticks.
-    joystick_count = pygame.joystick.get_count()
-
-
-    # For each joystick:
-    for i in range(joystick_count):
-        joystick = pygame.joystick.Joystick(i)
-        joystick.init()
-
-    axes = joystick.get_numaxes()
-    rt = joystick.get_axis(5)
-
+# # For each joystick:
+# for i in range(joystick_count):
+#     joystick = pygame.joystick.Joystick(i)
+#     joystick.init()
+#
+# done = False
+# while not done:
+#     axes = joystick.get_numaxes()
+#     rt = joystick.get_axis(5)
+#     print (rt)
+#     clock.tick(2)
+#     done = False
 
 # Connect to carla
 client = carla.Client('localhost', 2000)
-client.set_timeout(60.0)
+client.set_timeout(10.0)
 
 # Change map
 world = client.load_world("Town02")
@@ -50,9 +46,9 @@ vehicle_bp = bp_lib.filter('vehicle.tesla.model3')[0]
 # Start position
 transform = carla.Transform()
 
-transform.location.x = 130
-transform.location.y = 240
-transform.location.z = 2
+transform.location.x = 127.0
+transform.location.y = 237.4
+transform.location.z = 1.5
 
 transform.rotation.yaw = 180
 transform.rotation.pitch = 0
@@ -69,7 +65,7 @@ spectator.set_transform(sp_transform)
 
 # Move vehicle
 control = carla.VehicleControl()
-control.throttle = rt
+control.throttle = 0.2
 vehicle.apply_control(control)
 
 
@@ -115,6 +111,6 @@ camera.listen(lambda image: handle_image(display, image))
 
 
 # Stop after 15 seconds
-time.sleep(15)
+time.sleep(25)
 camera.destroy()
 vehicle.destroy()
