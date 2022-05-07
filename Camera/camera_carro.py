@@ -9,24 +9,17 @@ import numpy as np
 pygame.init()
 pygame.joystick.init()
 
-done=False
-
-# Joystick Loop
-while not done:
-    for event in pygame.event.get(): # User did something.
-            done = False # We're doing this forever :)
-
-    # Get count of joysticks.
-    joystick_count = pygame.joystick.get_count()
+# Get count of joysticks.
+joystick_count = pygame.joystick.get_count()
 
 
-    # For each joystick:
-    for i in range(joystick_count):
-        joystick = pygame.joystick.Joystick(i)
-        joystick.init()
+# For each joystick:
+for i in range(joystick_count):
+    joystick = pygame.joystick.Joystick(i)
+    joystick.init()
 
-    axes = joystick.get_numaxes()
-    rt = joystick.get_axis(5)
+axes = joystick.get_numaxes()
+rt = joystick.get_axis(5)
 
 
 # Connect to carla
