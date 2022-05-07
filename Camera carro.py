@@ -34,14 +34,14 @@ vehicle=world.spaw_actor(vehicle_bp, transform)
 
 spectator=world.get_spectator()
 sp_transform=carla.Transform(transform.location + carla.Location(z=30, x=-25))
-    carla.Rotation(yaw=90, pitch=-90)
+carla.Rotation(yaw=90, pitch=-90)
 spectator.set_tranform(sp_transform)
 
 control=carla.VehicleControl()
 control.throttle=0.3
 vehicle.apply_control(control)
 
-# rgb_camera_bp=world.get_blueprint_library().find('sensor.camera.rgb)')
+rgb_camera_bp=world.get_blueprint_library().find('sensor.camera.rgb)')
 # rgb_camera_bp.set_attribute("image_size_X", f"{IM_WIDTH}")
 # rgb_camera_bp.set_attribute("image_size_Y", f"{IM_HEIGHT}")
 
@@ -64,8 +64,7 @@ def handle_image(image):
     pygame.display.flip()
 
 display= pygame.display.set_mode(
-        (1200, 600)
-        pygame.HWSURFACE | pygame.DOUBLEBUF)
+        (1200, 600), pygame.HWSURFACE | pygame.DOUBLEBUF)
 
 rgb_camera_bp.listen(lambda image: handle_image(display, image))
 
