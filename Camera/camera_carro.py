@@ -23,6 +23,7 @@ done = False
 while not done:
     axes = joystick.get_numaxes()
     rt = joystick.get_axis(5)
+    print [rt]
     done = False
 
 # Connect to carla
