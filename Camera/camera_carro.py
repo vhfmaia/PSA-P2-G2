@@ -9,14 +9,10 @@ import numpy as np
 pygame.init()
 pygame.joystick.init()
 
+done=False
 
 # Joystick Loop
 while not done:
-    #
-    # EVENT PROCESSING STEP
-    #
-    # Possible joystick actions: JOYAXISMOTION, JOYBALLMOTION, JOYBUTTONDOWN,
-    # JOYBUTTONUP, JOYHATMOTION
     for event in pygame.event.get(): # User did something.
             done = False # We're doing this forever :)
 
