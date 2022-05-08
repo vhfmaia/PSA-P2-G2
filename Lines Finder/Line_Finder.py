@@ -21,7 +21,7 @@ def draw(img, lines):
     img = cv2.addWeighted(img, 0.8, line_image, 1, 0.0)
     return img
 
-image = cv2.imread('00006.png')
+image = cv2.imread('aveiro.png')
 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
 print(image.shape)
