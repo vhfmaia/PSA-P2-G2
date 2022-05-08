@@ -31,7 +31,7 @@ joystick_count = pygame.joystick.get_count()
 
 # Connect to carla
 client = carla.Client('localhost', 2000)
-client.set_timeout(10.0)
+client.set_timeout(40.0)
 
 # Change map
 world = client.load_world("Town02")
@@ -110,7 +110,7 @@ display = pygame.display.set_mode(
 camera.listen(lambda image: handle_image(display, image))
 
 
-# Stop after 15 seconds
+# Stop
 time.sleep(25)
 camera.destroy()
 vehicle.destroy()
