@@ -34,29 +34,30 @@ while not done:
         # Usually axis run in pairs, up/down for one, and left/right for
         # the other.
     axes = joystick.get_numaxes()
-    # print horizontal
-    axis0 = joystick.get_axis(0)
-    print(axis0)
-
-    # print vertical
+    #print(axes)
+    # print wheel
+    # axis0 = joystick.get_axis(0)
+    # print(axis0)
+    #
+    # print clutch
     axis1 = joystick.get_axis(1)
-    print(axis1)
+    #print(axis1)
 
-    # print lt
+    # print throttle
     axis2 = joystick.get_axis(2)
-    print(axis2)
+    #print(axis2)
 
-    # print button rt
-    axis5 = joystick.get_axis(5)
-    print(axis5)
-
-    # print button lb
-    button4 = joystick.get_button(4)
-    print(button4)
-
-    # print button rb
-    button5 = joystick.get_button(5)
-    print(button5)
+    # print brake
+    axis3 = joystick.get_axis(3)
+    print(axis3, axis2, axis1)
+    #
+    # # print button lb
+    # button4 = joystick.get_button(4)
+    # print(button4)
+    #
+    # # print button rb
+    # button5 = joystick.get_button(5)
+    # print(button5)
 
     # Limit to 20 frames per second.
     clock.tick(2)
