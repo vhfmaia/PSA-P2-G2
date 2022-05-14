@@ -59,7 +59,7 @@ def main():
 
 
     # Load world
-    world = client.load_world("Town02")
+    world = client.load_world("Town07")
     world.set_weather(carla.WeatherParameters.ClearNoon)
 
 

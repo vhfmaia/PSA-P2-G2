@@ -34,7 +34,7 @@ client = carla.Client('localhost', 2000)
 client.set_timeout(40.0)
 
 # Change map
-world = client.load_world("Town02")
+world = client.load_world("Town07")
 
 # Change Weather
 world.set_weather(carla.WeatherParameters.ClearNoon)
