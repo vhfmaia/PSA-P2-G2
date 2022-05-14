@@ -34,7 +34,7 @@ client = carla.Client('localhost', 2000)
 client.set_timeout(40.0)
 
 # Change map
-world = client.load_world("Town07")
+world = client.load_world("Town04")
 
 # Change Weather
 world.set_weather(carla.WeatherParameters.ClearNoon)
@@ -46,11 +46,11 @@ vehicle_bp = bp_lib.filter('vehicle.tesla.model3')[0]
 # Start position
 transform = carla.Transform()
 
-transform.location.x = 127.0
-transform.location.y = 237.4
+transform.location.x = -490.8
+transform.location.y = 229.1
 transform.location.z = 1.5
 
-transform.rotation.yaw = 180
+transform.rotation.yaw = -89
 transform.rotation.pitch = 0
 transform.rotation.roll = 0
 
@@ -84,7 +84,6 @@ def handle_image(disp, image):
     # Save image
     image.save_to_disk('output/%05d.png' % image.frame, carla.ColorConverter.Raw)
 
-
     # Handle image
     org_array = np.frombuffer(image.raw_data, dtype=np.dtype('uint8'))
     array = np.reshape(org_array, (image.height, image.width, 4))
@@ -92,7 +91,6 @@ def handle_image(disp, image):
     array = array[:,:,::-1]
     array = array.swapaxes(0,1)
     surface = pygame.surfarray.make_surface(array)
-
 
     # Update window
     disp.blit(surface, (200,0))
@@ -111,6 +109,6 @@ camera.listen(lambda image: handle_image(display, image))
 
 
 # Stop
-time.sleep(25)
+time.sleep(60)
 camera.destroy()
 vehicle.destroy()
