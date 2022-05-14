@@ -25,6 +25,10 @@ while True:
     blur = cv2.GaussianBlur(frame, (7,7), 0)
     gray = cv2.cvtColor(blur, cv2.COLOR_BGR2GRAY)
     roi1 = ROI(gray, np.array([Limits], np.int32))
+    kernel = np.array([[0, -1, 0],
+                       [-1, 5, -1],
+                       [0, -1, 0]])
+    roi3 = cv2.filter2D(src=roi1, ddepth=-5, kernel=kernel)
     roi2 = cv2.Canny(image=roi1,
                       threshold1=300,
                       threshold2=300,
@@ -63,8 +67,9 @@ while True:
             cv2.line(frame, (x1, y1), (x2, y2), (255, 0, 0), thickness=1)
 
     final = cv2.GaussianBlur(frame, (3,3), 0)
-    cv2.imshow("output", roi)
-    cv2.imshow("input", final)
+    cv2.imshow("output1", roi3)
+    cv2.imshow("output0", final)
+    cv2.imshow("output2", canny)
     key = cv2.waitKey(27)
     if key==27:
         break
