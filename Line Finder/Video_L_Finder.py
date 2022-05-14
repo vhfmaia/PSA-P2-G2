@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-video = cv2.VideoCapture("2022-05-14 12-22-28.mp4")
+video = cv2.VideoCapture("Input.mp4")
 
 def ROI(img, vertices):
     mask = np.zeros_like(img)
@@ -21,7 +21,7 @@ while True:
     W = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
     H = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
-    Limits = [((0) * W, (1) * H), ((1 / 2) * W, (11/20) * H), ((1) * W, (1) * H)]
+    Limits = [((5/100) * W, (92/100) * H), ((42/100) * W, (519/1000) * H), ((58/100) * W, (519/1000) * H), ((95/100) * W, (92/100) * H)]
     blur = cv2.GaussianBlur(frame, (7,7), 0)
     gray = cv2.cvtColor(blur, cv2.COLOR_BGR2GRAY)
     roi1 = ROI(gray, np.array([Limits], np.int32))
