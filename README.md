@@ -8,8 +8,8 @@ Mestrado em Engenharia Mecânia da Universidade de Aveiro
 - Selecionar uma cidade e modificar no Carla (04/04/22)
 - Adicionar uma câmera ao Carla (02/05/22)
 - Adicionar um Lidar 3D ao Carla (02/05/22)
-- Mudança de Town para Town04
-- Código de câmera a funcionar com vídeo
+- Mudança de Town para Town04 (14/05/22)
+- Código de câmera a funcionar com vídeo (14/05/22)
 
 ## Próximos Objetivos (16/05/22)
 - Implementar um nó ROS para câmera e Lidar 3D
