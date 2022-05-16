@@ -12,6 +12,21 @@ def ROI(img, vertices):
     masked_image = cv2.bitwise_and(img, mask)
     return masked_image
 
+def invert(img):
+    p1 = 289, 260
+    p2 = 355, 260
+    p3 = 108, 440
+    p4 = 536, 440
+
+    # cv2.circle(img, p1, 5, (0, 0, 255), -1)
+    # cv2.circle(img, p2, 5, (0, 0, 255), -1)
+    # cv2.circle(img, p3, 5, (0, 0, 255), -1)
+    # cv2.circle(img, p4, 5, (0, 0, 255), -1)
+    points_first = np.float32([p1, p2, p3, p4])
+    points_second = np.float32([[0, 0], [400, 0], [0, 600], [400, 600]])
+    matrix = cv2.getPerspectiveTransform(points_first, points_second)
+    result = cv2.warpPerspective(img, matrix, (400, 600))
+    return result
 
 while True:
     ret, frame = video.read()
@@ -21,12 +36,13 @@ while True:
 
     W = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
     H = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
-
-    Limits = [((5 / 100) * W, (92 / 100) * H), ((44 / 100) * W, (519 / 1000) * H), ((56 / 100) * W, (519 / 1000) * H),
-              ((95 / 100) * W, (92 / 100) * H)]
-    blur = cv2.GaussianBlur(frame, (7, 7), 0)
-    gray = cv2.cvtColor(blur, cv2.COLOR_BGR2GRAY)
-    roi1 = ROI(gray, np.array([Limits], np.int32))
+    Point_1 = ((5 / 100) * W, (92 / 100) * H)
+    Point_2 = ((44 / 100) * W, (519 / 1000) * H)
+    Point_3 = ((56 / 100) * W, (519 / 1000) * H)
+    Point_4 = ((95 / 100) * W, (92 / 100) * H)
+    Limits = [(Point_1, Point_2, Point_3, Point_4 )]
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    roi1 = invert(ROI(gray, np.array([Limits], np.int32)))
     kernel = np.array([[0, -1, 0],
                        [-1, 5, -1],
                        [0, -1, 0]])
