@@ -1,13 +1,12 @@
-#!/usr/bin/env python3
+#! /usr/bin/python
 
 import rospy
-import cv2
-import os
-import numpy as np
 from sensor_msgs.msg import Image
-from cv_bridge import CvBridge
+from cv_bridge import CvBridge, CvBridgeError
+import cv2
 
-bridge = CvBridge
+bridge = CvBridge()
+
 def image_callback(msg):
     print("Received an image!")
     try:
@@ -19,19 +18,10 @@ def image_callback(msg):
         # Save your OpenCV2 image as a jpeg
         cv2.imwrite('camera_image.jpeg', cv2_img)
 
-def camera():
-    rospy.init_node("camera_images")
-    rate = rospy.Rate(10)
-    images = rospy.Publisher("image_Carla", Image, queue_size=10)
-    rospy.Subscriber(images, Image, image_callback)
-
-    while not rospy.is_shutdown():
-        rate.sleep()
-
 
 
 if __name__ == '__main__':
-    try:
-        camera()
-    except rospy.ROSInterruptException:
-        pass
+        rospy.init_node('image_listener')
+        image_topic = "/carla/ego vehicle/rgb front/image"
+        rospy.Subscriber(image_topic, Image, image_callback)
+        rospy.spin()
