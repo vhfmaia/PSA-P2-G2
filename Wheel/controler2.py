@@ -12,7 +12,7 @@ clock = pygame.time.Clock()
 pygame.joystick.init()
 
 # -------- Main Program Loop -----------
-while not done:
+while True:
     #
     # EVENT PROCESSING STEP
     #
@@ -44,12 +44,12 @@ while not done:
     #print(axis1)
 
     # print throttle
-    axis2 = joystick.get_axis(2)
+    axis2 = round (((1- joystick.get_axis(2))/2),3)
     #print(axis2)
 
     # print brake
     axis3 = joystick.get_axis(3)
-    print(axis3, axis2, axis1)
+    print(axis2)
     #
     # # print button lb
     # button4 = joystick.get_button(4)

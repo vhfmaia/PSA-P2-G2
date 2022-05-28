@@ -1,23 +1,55 @@
 # Libraries Camera
 import carla
-import time
-import pygame
 import numpy as np
+import pygame
+import pygame.joystick
 
 # Initiate Pygame and Joystick
 pygame.init()
 pygame.joystick.init()
 clock = pygame.time.Clock()
-
+Throttle = Brake = Steer = 0
+done = False
 # Get count of joysticks.
 joystick_count = pygame.joystick.get_count()
-
+joystick = pygame.joystick.Joystick(0)
+joystick_name = joystick.get_name()
+axes = joystick.get_numaxes()
 
 def throttle():
-    gas = joystick.get_axis(2)
+    for event in pygame.event.get():
+        False
+    Throttle = round((1 - joystick.get_axis(2))/2, 4)
 
-    return gas
+    return Throttle
 
+def brake():
+    for event in pygame.event.get():
+        False
+    Brake = round((1 - joystick.get_axis(3))/2, 4)
+
+    return Brake
+
+
+def steer():
+    for event in pygame.event.get():
+        False
+    Steer = round((joystick.get_axis(0)), 4)
+
+    return Steer
+
+# # For each joystick:
+# for i in range(joystick_count):
+#     joystick = pygame.joystick.Joystick(i)
+#     joystick.init()
+#
+# done = False
+# while not done:
+#     axes = joystick.get_numaxes()
+#     rt = joystick.get_axis(5)
+#     print (rt)
+#     clock.tick(2)
+#     done = False
 
 # Connect to carla
 client = carla.Client('localhost', 2000)
@@ -54,8 +86,7 @@ sp_transform = carla.Transform(transform.location + carla.Location(z=30, x=-25),
 spectator.set_transform(sp_transform)
 
 # Move vehicle
-control = carla.VehicleControl()
-vehicle.apply_control(control)
+
 
 # Define camera
 rgb_camera_bp = world.get_blueprint_library().find('sensor.camera.rgb')
@@ -93,9 +124,13 @@ display = pygame.display.set_mode(
 # Update
 camera.listen(lambda image: handle_image(display, image))
 while True:
+    control = carla.VehicleControl()
     control.throttle = throttle()
+    control.brake = brake()
+    control.steer = steer()
+    vehicle.apply_control(control)
+    print(control.steer)
 
 # Stop
 camera.destroy()
 vehicle.destroy()
-exit()

@@ -25,8 +25,7 @@ axes = joystick.get_numaxes()
 
 print('Connected to joystick named ' + joystick_name)
 
-done = False
-while not done:
+while True:
     #
     # EVENT PROCESSING STEP
     #
@@ -61,7 +60,7 @@ while not done:
 
     # joystick = pygame.joystick.Joystick(0)
     # axis0 = joystick.get_axis(0)
-    # axis1 = joystick.get_axis(1)
+    throttle = joystick.get_axis(2)
     #
     # print('Axis0=' + str(axis0) + '; Axis1=' + str(axis1))
     #     axes = joystick.get_numaxes()
