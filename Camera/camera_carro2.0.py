@@ -14,23 +14,10 @@ joystick_count = pygame.joystick.get_count()
 
 
 def throttle():
-    GAS_GAS_GAS = joystick.get_axis(2)
+    gas = joystick.get_axis(2)
 
-    return GAS_GAS_GAS
+    return gas
 
-
-# # For each joystick:
-# for i in range(joystick_count):
-#     joystick = pygame.joystick.Joystick(i)
-#     joystick.init()
-#
-# done = False
-# while not done:
-#     axes = joystick.get_numaxes()
-#     rt = joystick.get_axis(5)
-#     print (rt)
-#     clock.tick(2)
-#     done = False
 
 # Connect to carla
 client = carla.Client('localhost', 2000)
@@ -111,3 +98,4 @@ while True:
 # Stop
 camera.destroy()
 vehicle.destroy()
+exit()
