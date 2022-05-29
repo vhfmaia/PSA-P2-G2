@@ -80,6 +80,12 @@ from std_msgs.msg import Bool
 # ==============================================================================
 # -- World ---------------------------------------------------------------------
 # ==============================================================================
+def joystick_control():
+    while True:
+        axis0 = joystick.get_axis(0)
+
+    return axis0
+
 
 
 class ManualControl(CompatibleNode):
