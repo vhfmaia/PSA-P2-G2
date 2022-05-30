@@ -15,4 +15,4 @@ Mestrado em Engenharia Mecânia da Universidade de Aveiro
 - Adicionar uma média no código da deteção das linhas da estrada (30/05/22)
 - Alterar a direção com base nas imagens do Carla e do Lidar 3D (30/05/22)
 ## Próximos Objetivos()
-- 
+- Inverse perspective mapping(novamente)
