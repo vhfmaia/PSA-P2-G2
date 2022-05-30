@@ -33,8 +33,8 @@ def imageCallback(msg):
     #print('height:', h, '\nwidth:', w, '\nchannel count:', img.shape[2], '\n')
     vertices = [
         (w * 0.1, h),
-        (w * 0.35, h * 0.3),
-        (w * 0.65, h * 0.3),
+        (w * 0.35, h * 0.5),
+        (w * 0.65, h * 0.5),
         (w, h * 0.8),
         (w, h)
     ]
@@ -52,16 +52,17 @@ def imageCallback(msg):
                             lines=np.array([]),
                             minLineLength=1,
                             maxLineGap=1)
-    i = 0
+
     lista = []
     if lines is not None:
         for line in lines:
             x1, y1, x2, y2 = line[0]
-            x = (y2 - y1) / (x2 - x1)
-            theta = 180 * np.arctan(x) / np.pi
-            if -90 <= theta <= -30 or 30 <= theta <= 90:
-                lista.append(theta)
-                cv2.line(img, (x1, y1), (x2, y2), (255, 0, 0), thickness=3)
+            if x2 - x1 != 0:
+                x = (y2 - y1) / (x2 - x1)
+                theta = 180 * np.arctan(x) / np.pi
+                if -90 <= theta <= -30 or 30 <= theta <= 90:
+                    lista.append(theta)
+                    cv2.line(img, (x1, y1), (x2, y2), (255, 0, 0), thickness=3)
     avg_theta = np.mean(lista)
 
     # Save your OpenCV2 image as a jpeg
@@ -72,12 +73,13 @@ def imageCallback(msg):
 
     # make a driving decision
     angle = 0
-    if avg_theta > 0.2:
+    if avg_theta > 10:
         angle = 0.1
-    elif avg_theta < -0.2:
+        print("left")
+    elif avg_theta < -10:
         angle = -0.1
-    print(angle)
-    speed = 0.1
+        print("right")
+    speed = 0.15
 
     # build a twist msg to publish
     twist = Twist()
