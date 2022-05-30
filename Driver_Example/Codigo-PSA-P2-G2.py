@@ -19,7 +19,7 @@ publisher = None
 
 
 def imageCallback(msg):
-    print("Received an image!")
+    #print("Received an image!")
 
     try:
         # Convert your ROS Image message to OpenCV2
@@ -30,7 +30,7 @@ def imageCallback(msg):
 
     h = img.shape[0]
     w = img.shape[1]
-    print('height:', h, '\nwidth:', w, '\nchannel count:', img.shape[2], '\n')
+    #print('height:', h, '\nwidth:', w, '\nchannel count:', img.shape[2], '\n')
     vertices = [
         (w * 0.1, h),
         (w * 0.35, h * 0.3),
@@ -60,15 +60,10 @@ def imageCallback(msg):
             x = (y2 - y1) / (x2 - x1)
             theta = 180 * np.arctan(x) / np.pi
             if -90 <= theta <= -30 or 30 <= theta <= 90:
-                # lista[i] = theta
+                lista.append(theta)
                 cv2.line(img, (x1, y1), (x2, y2), (255, 0, 0), thickness=3)
-                # i = i + 1
-                # print(i)
-                # print(lista)
-        # avg_theta = np.mean(lista)
+    avg_theta = np.mean(lista)
 
-    # x3, y3, x4, y4 = np.mean(line[0])
-    # cv2.line(img, (x3, y3), (x4, y4), (255, 0, 255), thickness=3)
     # Save your OpenCV2 image as a jpeg
     cv2.imshow('ROI', canny)
     cv2.imshow('front camera', img)
@@ -77,14 +72,19 @@ def imageCallback(msg):
 
     # make a driving decision
     angle = 0
-    speed = 0
+    if avg_theta > 0.2:
+        angle = 0.1
+    elif avg_theta < -0.2:
+        angle = -0.1
+    print(angle)
+    speed = 0.1
 
     # build a twist msg to publish
     twist = Twist()
     twist.linear.x = speed
     twist.angular.z = angle
     global publisher
-    # publisher.publish(twist)
+    publisher.publish(twist)
 
 
 def main():
