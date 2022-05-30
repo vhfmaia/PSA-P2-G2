@@ -32,9 +32,10 @@ def imageCallback(msg):
     w = img.shape[1]
     print('height:', h, '\nwidth:', w, '\nchannel count:', img.shape[2], '\n')
     vertices = [
-        (0, h),
+        (w * 0.1, h),
         (w * 0.35, h * 0.3),
         (w * 0.65, h * 0.3),
+        (w, h * 0.8),
         (w, h)
     ]
     mask = np.zeros_like(img)
@@ -51,15 +52,23 @@ def imageCallback(msg):
                             lines=np.array([]),
                             minLineLength=1,
                             maxLineGap=1)
+    i = 0
+    lista = []
     if lines is not None:
         for line in lines:
             x1, y1, x2, y2 = line[0]
-            print(line)
-            cv2.line(img, (x1, y1), (x2, y2), (255, 0, 0), thickness=3)
-            i=i+1
-            print(i)
-    x3, y3, x4, y4 = np.mean(line[i])
-    cv2.line(img, (x3, y3), (x4, y4), (255, 0, 255), thickness=3)
+            x = (y2 - y1) / (x2 - x1)
+            theta = 180 * np.arctan(x) / np.pi
+            if -90 <= theta <= -30 or 30 <= theta <= 90:
+                # lista[i] = theta
+                cv2.line(img, (x1, y1), (x2, y2), (255, 0, 0), thickness=3)
+                # i = i + 1
+                # print(i)
+                # print(lista)
+        # avg_theta = np.mean(lista)
+
+    # x3, y3, x4, y4 = np.mean(line[0])
+    # cv2.line(img, (x3, y3), (x4, y4), (255, 0, 255), thickness=3)
     # Save your OpenCV2 image as a jpeg
     cv2.imshow('ROI', canny)
     cv2.imshow('front camera', img)
