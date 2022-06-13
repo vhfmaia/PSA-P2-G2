@@ -40,11 +40,27 @@ while running:
     cv2.waitKey(1)
 
 
-# Second window: use 4 points to transform image
+# Second window: get window size
 img2 = cv2.imread(img_str)
 h = img2.shape[0]
 w = img2.shape[1]
 
+
+# Save to txt file
+# point_list = [[w, h], points]
+# text_file = open("transform_points.txt", "w")
+# text_file.write(str(point_list))
+# text_file.close()
+
+
+# Print relative coordinates
+for i in range(len(points)):
+    x_relative = points[i][1] / h
+    y_relative = points[i][0] / w
+    print(round(x_relative, 3), round(y_relative, 3))
+
+
+# Second window: use 4 points to transform image
 points_first = np.float32(points)
 points_second = np.float32([[0, 0], [h, 0], [0, w], [h, w]])
 matrix = cv2.getPerspectiveTransform(points_first, points_second)
@@ -52,11 +68,3 @@ result = cv2.warpPerspective(img2, matrix, (h, w))
 plt.imshow(img2)
 plt.imshow(result)
 plt.show()
-
-
-# Save to txt file
-print(w, h)
-point_list = [[w, h], points]
-text_file = open("transform_points.txt", "w")
-text_file.write(str(point_list))
-text_file.close()
