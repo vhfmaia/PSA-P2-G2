@@ -22,7 +22,7 @@ def click_event(event, x, y, flags, params):
             cv2.circle(img, (x, y), 5, (0, 0, 255), -1)
 
             if len(points) == 4:
-                print("4 points saved - click to continue")
+                print("4 points saved - click to continue\n")
 
         # When complete, break loop
         else:
@@ -54,17 +54,21 @@ w = img2.shape[1]
 
 
 # Print relative coordinates
+print("(w, h) = " + str(w) + ", " + str(h))
 for i in range(len(points)):
-    x_relative = points[i][1] / h
-    y_relative = points[i][0] / w
-    print(round(x_relative, 3), round(y_relative, 3))
+    x_relative = points[i][0] / w
+    y_relative = points[i][1] / h
+
+    print("Point " + str(i+1) + ": "
+          + str(points[i][0]) + ", " + str(points[i][1]) + "  -->  "
+          + str(round(x_relative, 3)) + ", " + str(round(y_relative, 3)))
 
 
-# Second window: use 4 points to transform image
+# Second window: preview transform
 points_first = np.float32(points)
 points_second = np.float32([[0, 0], [h, 0], [0, w], [h, w]])
 matrix = cv2.getPerspectiveTransform(points_first, points_second)
-result = cv2.warpPerspective(img2, matrix, (h, w))
+result = cv2.warpPerspective(img2, matrix, (w, h))
 plt.imshow(img2)
 plt.imshow(result)
 plt.show()
