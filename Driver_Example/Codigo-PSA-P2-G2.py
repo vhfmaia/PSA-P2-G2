@@ -73,11 +73,12 @@ def imageCallback(msg):
 
     # make a driving decision
     angle = 0
+    amp = 0.0025
     if avg_theta > 10:
-        angle = 0.0025 * avg_theta
+        angle = amp * avg_theta
         print("left")
     elif avg_theta < -10:
-        angle = 0.0025 * avg_theta
+        angle = amp * avg_theta
         print("right")
     speed = 0.2
 

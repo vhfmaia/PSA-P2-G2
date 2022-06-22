@@ -1,8 +1,0 @@
-<launch>
-    <arg name="name" default="psa_robot"/>
-
-        <!-- Launch rviz, loading configuration file -->
-        <node name="rviz" pkg="rviz" type="rviz" args="--display-config $(find psa_robot_description)/config/visualize.rviz" required="false">
-            <remap from="/move_base_simple/goal" to="$(arg name)/move_base_simple/goal"/>
-        </node>
-</launch>
