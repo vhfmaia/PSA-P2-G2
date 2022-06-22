@@ -1,0 +1,31 @@
+<launch>
+    <arg name="name" default="psa_robot"/>
+    <arg name="color" default="Red"/>
+    <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
+    <arg name="x_pos" default="-3.49"/>
+    <arg name="y_pos" default="-1.94"/>
+    <arg name="z_pos" default="0.1"/>
+
+    <!--Load robot xacro into robot_description ros parameter.-->
+    <param name="robot_description" command="$(find xacro)/xacro '$(find psa_robot_description)/urdf/psa_robot.urdf.xacro' name:=$(arg name) color:=$(arg color)"/>
+
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+    <include file="$(find psa_robot_description)/launch/spawn.launch">
+        <arg name="name" value="$(arg name)"/>
+        <arg name="model" value="$(arg model)"/>
+        <arg name="x_pos" default="$(arg x_pos)"/>
+        <arg name="y_pos" default="$(arg y_pos)"/>
+        <arg name="z_pos" default="$(arg z_pos)"/>
+    </include>
+
+    <include file="$(find psa_robot_description)/launch/teleop_rqt.launch">
+        <arg name="name" value="$(arg name)"/>
+    </include>
+
+    <include file="$(find psa_robot_description)/launch/visualize.launch">
+    </include>
+
+
+</launch>
