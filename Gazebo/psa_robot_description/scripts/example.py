@@ -3,6 +3,9 @@
 # rospy for the subscriber
 import math
 import threading
+import ctypes
+import struct
+from email import header
 from copy import deepcopy
 from re import I
 from xml.etree.ElementTree import PI
@@ -12,18 +15,20 @@ import rospy
 
 # OpenCV2 for saving an image
 import cv2
+import sensor_msgs.point_cloud2 as pc2
 from colorama import Fore, Style
 from vertical_stacking import verticalStacking
 from line_tracker import LineTracker
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import Twist, Point
 
 # ROS Image message
-from sensor_msgs.msg import Image
-from std_msgs.msg import String
+from sensor_msgs.msg import Image, PointCloud2, PointField
+from std_msgs.msg import String, Header
 
 # ROS Image message -> OpenCV2 image converter
 from cv_bridge import CvBridge, CvBridgeError
 from simple_pid import PID
+from visualization_msgs.msg import Marker, MarkerArray
 
 
 class Driver():
@@ -67,11 +72,74 @@ class Driver():
         kd = 0.001
         self.pid = PID(kp, ki, kd, setpoint=w/2)
 
+        self.ground_threshold = -0.25
         # Set up your subscriber and define its callback
         self.subscriber = rospy.Subscriber(image_topic, Image, self.imageCallback)
         self.subscriber_drive_lane = rospy.Subscriber('drive_lane', String, self.driveLaneCallback)
+        self.cloud_sub = rospy.Subscriber("/lidar3d/points", PointCloud2,
+                                          self.pointCloudCallback, queue_size=1, buff_size=52428800)
+
         self.publisher = rospy.Publisher('cmd_vel', Twist, queue_size=1)
+        self.publisher_visualization = rospy.Publisher('Markers', MarkerArray, queue_size=1)
         self.timer = rospy.Timer(rospy.Duration(0.1), self.decisionCallback)
+
+    def pointCloudCallback(self, ros_point_cloud):
+        print('Received point cloud')
+        # xyz = np.array([[0, 0, 0]])
+        xyz = []
+        # rgb = np.array([[0, 0, 0]])
+        # self.lock.acquire()
+        gen = pc2.read_points(ros_point_cloud, skip_nans=True)
+        int_data = list(gen)
+
+        for x in int_data:
+            test = x[3]
+            # cast float32 to int so that bitwise operations are possible
+            s = struct.pack('>f', test)
+            i = struct.unpack('>l', s)[0]
+            # you can get back the float value by the inverse operations
+            pack = ctypes.c_uint32(i).value
+            r = (pack & 0x00FF0000) >> 16
+            g = (pack & 0x0000FF00) >> 8
+            b = (pack & 0x000000FF)
+            # prints r,g,b values in the 0-255 range
+            # x,y,z can be retrieved from the x[0],x[1],x[2]
+
+            if x[2] > self.ground_threshold:
+                # xyz = np.append(xyz, [[x[0], x[1], x[2]]], axis=0)
+                # rgb = np.append(rgb, [[r, g, b]], axis=0)
+                xyz.append((x[0], x[1], x[2]))
+
+        print('xyz len ' + str(len(xyz)))
+        # print(xyz)
+
+        ma = MarkerArray()
+        m = Marker(header=Header(stamp=rospy.Time.now(), frame_id=ros_point_cloud.header.frame_id))
+        m.ns = 'markers'
+        m.id = 0
+        m.type = Marker.POINTS
+        m.action = Marker.ADD
+        m.pose.orientation.w = 1
+        m.scale.x = 0.05
+        m.scale.y = 0.05
+        m.color.r = 1
+        m.color.g = 0
+        m.color.b = 0
+        m.color.a = 1
+
+        for point in xyz:
+            x = point[0]
+            y = point[1]
+            z = point[2]
+
+            p = Point()
+            p.x = x
+            p.y = y
+            p.z = z
+            m.points.append(p)
+
+        ma.markers.append(m)
+        self.publisher_visualization.publish(ma)
 
     def driveLaneCallback(self, msg):
         if msg.data not in ['LEFT', 'MIDDLE', 'RIGHT']:
@@ -81,6 +149,7 @@ class Driver():
             print('Changing driving lane to ' + self.driving_lane)
 
     def decisionCallback(self, msg):
+
         print('Decision callback')
         if self.image_gui is None or self.image_stacked is None:
             return
@@ -178,7 +247,7 @@ class Driver():
         twist = Twist()
         twist.linear.x = speed
         twist.angular.z = angle
-        self.publisher.publish(twist)
+        # self.publisher.publish(twist)
 
         cv2.putText(
             self.image_gui, 'Angle' + str(round(angle*180/math.pi, 2)), (10, 150),
