@@ -2,7 +2,6 @@
 Mestrado em Engenharia Mecânia da Universidade de Aveiro
 
 ## Fase Inicial
-![image](https://user-images.githubusercontent.com/101104887/177052452-a818cfbb-4021-46ef-92b8-c0b77f0df7d7.png)
 ![image](https://user-images.githubusercontent.com/101104887/177052459-d31cd604-4aa6-43c9-9b19-f9caef7e4daf.png)
 - Instalação do Ubuntu 
 - Instalação do Carla 
