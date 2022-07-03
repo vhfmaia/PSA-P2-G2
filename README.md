@@ -14,7 +14,7 @@ Mestrado em Engenharia Mecânia da Universidade de Aveiro
 ## Mudança para o simulador Gazebo
 ![image](https://user-images.githubusercontent.com/101104887/177052322-a39dcf34-5178-4fa8-bca6-f063747096df.png)
 - Modificação do software de simulação para Gazebo 
-- Implementação um nó ROS para câmera e Lidar 3D 
+- Implementação de um nó ROS para câmera e Lidar 3D 
 - Adição de uma média no código da deteção das linhas da estrada 
 - Alteração da direção com base nas imagens do Carla e do Lidar 3D 
 - Tentativa de implementação do IPM 
