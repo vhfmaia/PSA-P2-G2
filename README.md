@@ -1,5 +1,5 @@
 # PSA-P2-G2
-Mestrado em Engenharia Mecânia da Universidade de Aveiro
+Mestrado em Engenharia Mecânica da Universidade de Aveiro
 
 ## Fase Inicial
 ![image](https://user-images.githubusercontent.com/101104887/177052459-d31cd604-4aa6-43c9-9b19-f9caef7e4daf.png)
