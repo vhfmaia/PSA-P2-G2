@@ -18,7 +18,6 @@ bridge = CvBridge()
 publisher = None
 
 time_cross = 0
-# speed = 0
 
 
 def imageCallback(msg):
@@ -127,10 +126,6 @@ def imageCallback(msg):
 
     cv2.line(img3, (int(w / 2), h), (int(w / 2) - x_diff, 0), avg_color, 2)
 
-    # Display img3: transformed image + hough lines + average angle line
-    cv2.imshow('Lines', img3)
-    cv2.waitKey(20)
-
     # Change driving angle depending on average line angle
     min_theta = 5
 
@@ -144,7 +139,7 @@ def imageCallback(msg):
     time_diff = rospy.get_rostime().secs - time_cross
 
     line_count = 0
-    line_threshold = 30
+    line_threshold = 35
     stop_time = 5
     if time_diff > 15:
         if lines is not None:
@@ -154,25 +149,34 @@ def imageCallback(msg):
             time_cross = rospy.get_rostime().secs
 
     # Speed: stop on crosswalk / slow down on curves
-
-    # min_speed = 0
-    # max_speed = 0.5
-    # global speed
-    # if speed < max_speed:
-    # acceleration = 0.01
-    # speed = speed + acceleration
-    # elif speed > max_speed:
-    #     speed = max_speed
-    # if speed
-
     if time_diff < stop_time:
         speed = 0
-        print("Crosswalk: " + str(5 - time_diff))
+        cross_countdown = 5 - time_diff
+        print("Crosswalk: " + str(cross_countdown))
 
     else:
         speed = 0.05 + 0.2 * (1 - abs(avg_theta) / 90)
+        cross_countdown = 0
 
+    # Text displays
     print("Lines: " + str(line_count) + " -- Angle: " + str(round(avg_theta)) + "º -- Speed: " + str(round(speed, 2)))
+
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    txt_color = (0, 180, 0)
+    txt_theta = "Avg angle: " + str(round(avg_theta)) + " deg"
+    txt_speed = "Speed: " + str(round(speed, 3))
+    cv2.putText(img3, txt_theta, (int(0.01 * w), int(0.1 * h)), font, 0.7, txt_color, 1, cv2.LINE_AA)
+    cv2.putText(img3, txt_speed, (int(0.01 * w), int(0.2 * h)), font, 0.7, txt_color, 1, cv2.LINE_AA)
+    if cross_countdown != 0:
+        txt_cross = "Crosswalk: " + str(cross_countdown) + " seconds"
+        cv2.putText(img3, txt_cross, (int(0.01 * w), int(0.3 * h)), font, 0.7, txt_color, 1, cv2.LINE_AA)
+    elif time_diff < 15:
+        txt_cross = "Blackout: " + str(15 - time_diff) + " seconds"
+        cv2.putText(img3, txt_cross, (int(0.01 * w), int(0.3 * h)), font, 0.7, txt_color, 1, cv2.LINE_AA)
+
+    # Display img3: transformed image + hough lines + average angle line
+    cv2.imshow('Lines', img3)
+    cv2.waitKey(20)
 
     # ROS
     # Build a twist msg to publish
